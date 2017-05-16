@@ -35,7 +35,7 @@
     "bluebird": "^3.5.0",
     "nyc": "^10.3.2"
   },
-  "peerDependencies": {
+  "optionalDependencies": {
     "bluebird": "^3.5.0"
   }
 }
