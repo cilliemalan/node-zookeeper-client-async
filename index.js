@@ -4,6 +4,14 @@ const ACL = zookeeper.ACL;
 const CreateMode = zookeeper.CreateMode;
 const Exception = zookeeper.Exception;
 
+// use bluebird promises if available
+try {
+    var bluebird = require('bluebird');
+    if (bluebird) {
+        global.Promise = bluebird.Promise;
+    }
+} catch (_) { }
+
 
 module.exports = Object.assign({}, zookeeper);
 
