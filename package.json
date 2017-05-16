@@ -1,0 +1,41 @@
+{
+  "name": "node-zookeeper-client-async",
+  "version": "1.0.0-beta",
+  "description": "A promises wrapper over https://github.com/alexguan/node-zookeeper-client",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R dot",
+    "coverage": "nyc --reporter=html --reporter=text  mocha -R dot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cilliemalan/node-zookeeper-client-async.git"
+  },
+  "keywords": [
+    "zookeeper",
+    "client",
+    "javascript",
+    "async",
+    "promise"
+  ],
+  "author": "Cillié Malan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cilliemalan/node-zookeeper-client-async/issues"
+  },
+  "homepage": "https://github.com/cilliemalan/node-zookeeper-client-async#readme",
+  "dependencies": {
+    "node-zookeeper-client": "^0.2.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.19.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.1",
+    "bluebird": "^3.5.0",
+    "nyc": "^10.3.2"
+  },
+  "peerDependencies": {
+    "bluebird": "^3.5.0"
+  }
+}
