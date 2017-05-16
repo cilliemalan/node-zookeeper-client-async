@@ -24,6 +24,22 @@ describe('The AsyncClient', function () {
         await client.removeAsync(path);
     });
 
+    it('should be able to create a path twice', async function () {
+        // arrange
+        let path = `/test/test-${parseInt(Math.random() * 10000)}`;
+
+        // act
+        let r1 = await client.createAsync(path);
+        let r2 = await client.createAsync(path);
+
+        // assert
+        assert.isOk(r1);
+        assert.isNotOk(r2);
+
+        // cleanup
+        await client.removeAsync(path);
+    });
+
     it('should be able to delete twice', async function () {
         // arrange
         let path = `/test/test-${parseInt(Math.random() * 10000)}`;
