@@ -77,8 +77,96 @@ describe('The AsyncClient', function () {
         await client.removeAsync(path1);
     });
 
+    it('should successfully check if a path exists', async function () {
+
+        // arrange 
+        let path = `/test/test-${parseInt(Math.random() * 10000)}`;
+        await client.createAsync(path);
+
+        // act
+        let exists = await client.existsAsync(path);
+
+        // assert
+        assert.isOk(exists);
+
+        // cleanup
+        await client.removeAsync(path);
+    });
+
+    it('should successfully check if a path does not exist', async function () {
+
+        // arrange 
+        let path = `/test/test-${parseInt(Math.random() * 10000)}`;
+
+        // act
+        let exists = await client.existsAsync(path);
+
+        // assert
+        assert.isNotOk(exists);
+
+        // cleanup
+        await client.removeAsync(path);
+    });
+
+    it('should successfully check if a nested path does not exist', async function () {
+
+        // arrange 
+        let path = `/test/a/b/c`;
+
+        // act
+        let exists = await client.existsAsync(path);
+
+        // assert
+        assert.isNotOk(exists);
+
+        // cleanup
+        await client.removeAsync(path);
+    });
+
+    it('should retrieve children if a node has children', async function () {
+        // arrange
+        const root = `/test/test-${parseInt(Math.random() * 10000)}`;
+        const children = [`${root}/a`, `${root}/b`, `${root}/c`];
+        await client.createAsync(root);
+        await Promise.all(children.map(p => client.createAsync(p)));
+
+        // act
+        const retrieved = await client.getChildrenAsync(root);
+
+        // assert
+        assert.isOk(retrieved);
+        assert.equal(retrieved.length, children.length);
+        assert.include(retrieved, 'a');
+        assert.include(retrieved, 'b');
+        assert.include(retrieved, 'c');
+    });
+
+    it('should retrieve no children if a node has no children', async function () {
+        // arrange
+        const root = `/test/test-${parseInt(Math.random() * 10000)}`;
+        await client.createAsync(root);
+
+        // act
+        const retrieved = await client.getChildrenAsync(root);
+
+        // assert
+        assert.isOk(retrieved);
+        assert.equal(retrieved.length, 0);
+    });
+
+    it('should retrieve null if a node does not exist', async function () {
+        // arrange
+        const root = `/test/test-${parseInt(Math.random() * 10000)}`;
+
+        // act
+        const retrieved = await client.getChildrenAsync(root);
+
+        // assert
+        assert.isNotOk(retrieved);
+    });
+
     after(async function () {
-        await client.removeAsync('/test');
+        //await client.removeAsync('/test');
         await client.closeAsync();
     });
 });
