@@ -201,6 +201,160 @@ class AsyncClient {
             });
         });
     }
+
+    /**
+     * For the given node path, retrieve the children list and the stat. The children will
+     * be an unordered list of strings. Resolves the stat object if the node exists,
+     * resolves null if it does not exist, rejects if anything goes wrong.
+     * @param {string} path the Path of the node.
+     * @returns {Promise}
+     */
+    existsAsync(path) {
+        return new Promise((resolve, reject) => {
+            this._client.exists(path, null, (e, stat) => {
+                if (e) {
+                    if (e.code == Exception.NO_NODE) resolve(null);
+                    else reject(e);
+                } else {
+                    resolve(stat);
+                }
+            });
+        });
+    }
+
+    /**
+     * For the given node path, retrieve the children list and the stat. The children will
+     * be an unordered list of strings. Resolved the children if the node exists, resolves
+     * null if the node does not exist. Rejects if anything goes wrong.
+     * @param {string} path the Path of the node.
+     * @returns {Promise}
+     */
+    getChildrenAsync(path) {
+        return new Promise((resolve, reject) => {
+            this._client.getChildren(path, null, (e, children) => {
+                if (e) {
+                    if (e.code == Exception.NO_NODE) resolve(null);
+                    else reject(e);
+                } else {
+                    resolve(children);
+                }
+            });
+        });
+    }
+
+    /**
+     * Retrieve the data and the stat of the node of the given path. Resolves an object
+     * containing data as a Buffer object and stat as the stat object. Resolves null
+     * if the node does not exist. Rejects if anything goes wrong.
+     * @param {string} path the Path of the node.
+     * @returns {Promise}
+     */
+    getDataAsync(path) {
+        return new Promise((resolve, reject) => {
+            this._client.getData(path, null, (e, data, stat) => {
+                if (e) {
+                    if (e.code == Exception.NO_NODE) resolve(null);
+                    else reject(e);
+                } else {
+                    resolve({ data, stat });
+                }
+            });
+        });
+    }
+
+    /**
+     * Set the data for the node of the given path if such a node exists and the optional
+     * given version matches the version of the node (if the given version is -1, it
+     * matches any node's versions). Will resolve the stat of the node if successful. Will
+     * reject if unsuccessful or if the node does not exist.
+     * @param {string} path the Path of the node.
+     * @param {Buffer} data the data to set on the node.
+     * @param {Number} version the version to set. -1 (default) to match any version.
+     * @returns {Promise}
+     */
+    setDataAsync(path, data, version = -1) {
+        return new Promise((resolve, reject) => {
+            this._client.setData(path, data, version, (e, stat) => {
+                if (e) {
+                    reject(e);
+                } else {
+                    resolve(stat);
+                }
+            });
+        });
+    }
+
+    /**
+     * Retrieve the list of ACL and stat of the node of the given path. Will resolve an
+     * object with acls as a list of ACL objects and stat as the stat for the node. Will
+     * resolve null if the node does not exist and will reject if anything goes wrong.
+     * @param {string} path the Path of the node.
+     * @returns {Promise}
+     */
+    getACLAsync(path) {
+        return new Promise((resolve, reject) => {
+            this._client.getACL(path, (e, acls, stat) => {
+                if (e) {
+                    if (e.code == Exception.NO_NODE) resolve(null);
+                    else reject(e);
+                } else {
+                    resolve({ stat, acls });
+                }
+            });
+        });
+    }
+
+    /**
+     * Set the ACL for the node of the given path if such a node exists and the given
+     * version (optional) matches the version of the node on the server. (if the given
+     * version is -1, it matches any versions). Will resolve on success and reject
+     * if anything goes wrong or the node does not exist.
+     * @param {string} path the Path of the node.
+     * @param {ACL[]} acls An array of ACL instances to set on the node.
+     * @param {Number} version the version to set. -1 (default) to match any version.
+     */
+    setACLAsync(path, acls, version) {
+        return new Promise((resolve, reject) => {
+            this._client.setACL(path, acls, version, (e, stat) => {
+                if (e) {
+                    reject(e);
+                } else {
+                    resolve(stat);
+                }
+            });
+        });
+    }
+
+    /**
+     * Create given path in a way similar to mkdir -p. Will resolve the path if the node
+     * is created and will reject if anything goes wrong.
+     * @param {string} path the Path of the node.
+     * @param {Buffer} data The data buffer, optional, defaults to null.
+     * @param {ACL[]} acls  array of ACL objects, optional, defaults to ACL.OPEN_ACL_UNSAFE
+     * @param {CreateMode} mode The creation mode, optional, defaults to CreateMode.PERSISTENT
+     */
+    mkdirpAsync(path, data = null, acls = null, mode = null) {
+        return new Promise((resolve, reject) => {
+            this._client.setACL(path, data, acls, mode, (e, path) => {
+                if (e) {
+                    reject(e);
+                } else {
+                    resolve(path);
+                }
+            });
+        });
+    }
+
+    /**
+     * Create and return a new Transaction instance which provides a builder object that
+     * can be used to construct and commit a set of operations atomically.
+     * @returns {AsyncTransaction}
+     */
+    transaction() {
+        const transaction = this._client.transaction();
+        const asyncTransaction = new AsyncTransaction(transaction);
+        return asyncTransaction;
+    }
 }
 
 
