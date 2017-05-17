@@ -15,6 +15,81 @@ try {
 
 module.exports = Object.assign({}, zookeeper);
 
+class AsyncTransaction {
+    constructor(transaction) {
+        this._transaction = transaction;
+    }
+
+    /**
+     * Add a create operation with given path, data, acls and mode.
+     * @param {String} path Path of the node.
+     * @param {Buffer} data The data buffer, optional, defaults to null.
+     * @param {ACL[]} acls An array of ACL objects, optional, defaults to ACL.OPEN_ACL_UNSAFE
+     * @param {CreateMode} mode The creation mode, optional, defaults to CreateMode.PERSISTENT
+     * @returns {AsyncTransaction}
+     */
+    create(path, data = null, acls = null, mode = null) {
+        this._transaction.create(path, data, acls, mode);
+        return this;
+    }
+
+    /**
+     * Add a set-data operation with the given path, data and optional version.
+     * @param {string} path Path of the node.
+     * @param {Buffer} data The data buffer, or null.
+     * @param {number} version The version of the node, optional, defaults to -1.
+     * @returns {AsyncTransaction}
+     */
+    setData(path, data, version = -1) {
+        this._transaction.setData(path, data, version);
+        return this;
+    }
+
+    /**
+     * Add a check (existence) operation with given path and optional version.
+     * @param {*} path Path of the node.
+     * @param {*} version The version of the node, optional, defaults to -1.
+     * @returns {AsyncTransaction}
+     */
+    check(path, version = -1) {
+        this._transaction.check(path, version);
+        return this;
+    }
+
+    /**
+     * Add a delete operation with the given path and optional version.
+     * @param {*} path Path of the node.
+     * @param {*} version The version of the node, optional, defaults to -1.
+     * @returns {AsyncTransaction}
+     */
+    remove(path, version = -1) {
+        this._transaction.remove(path, version);
+        return this;
+    }
+
+    /**
+     * Execute the transaction atomically.
+     * @param {Function} cb The callback function.
+     */
+    commit(cb) {
+        this._transaction.commit(cb);
+    }
+
+    /**
+     * Execute the transaction atomically. Resolves when the operation has completed,
+     * rejects if anything goes wrong.
+     * @returns {Promise}
+     */
+    commitAsync() {
+        return new Promise((resolve, reject) => {
+            this._transaction.commit((e, r) => {
+                if (e) reject(e);
+                else resolve(r);
+            })
+        });
+    }
+}
+
 /**
  * An zookeeper client that has methods that return promises.
  */
