@@ -40,7 +40,11 @@ describe('The AsyncClient', function () {
         await client.removeAsync(path);
     });
 
-    it('should be able to delete twice', async function () {
+    it('should throw if create fails', async function () {
+        assert.throwsAsync(client.createAsync('/a/b/c/d/e'));
+    });
+
+    it('should be able to remove twice', async function () {
         // arrange
         let path = `/test/test-${parseInt(Math.random() * 10000)}`;
         await client.createAsync(path);
@@ -52,6 +56,10 @@ describe('The AsyncClient', function () {
         // assert
         assert.isTrue(r1);
         assert.isFalse(r2);
+    });
+
+    it('should throw if remove fails', async function () {
+        assert.throwsAsync(client.removeAsync('azz1240-a$5"/a/b/c/d/e'));
     });
 
     after(async function () {
