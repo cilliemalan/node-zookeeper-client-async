@@ -332,6 +332,7 @@ class AsyncClient {
      * @param {Buffer} data The data buffer, optional, defaults to null.
      * @param {ACL[]} acls  array of ACL objects, optional, defaults to ACL.OPEN_ACL_UNSAFE
      * @param {CreateMode} mode The creation mode, optional, defaults to CreateMode.PERSISTENT
+     * @return {Promise}
      */
     mkdirpAsync(path, data = null, acls = null, mode = null) {
         return new Promise((resolve, reject) => {
@@ -342,6 +343,29 @@ class AsyncClient {
                     resolve(path);
                 }
             });
+        });
+    }
+
+    /**
+     * Remove a given path in a way similar to rm -rf. Will resolve if the node is deleted
+     * or does not exist and reject if anything goes wrong.
+     * @param {string} path the Path of the node.
+     * @return {Promise}
+     */
+    rmrfAsync(path) {
+        return new Promise((resolve, reject) => {
+            this.getChildrenAsync(path).then(children => {
+                if (!children || !children.length) {
+                    // no children, ready to remove the node.
+                    this.removeAsync(path).then(resolve, reject);
+                } else {
+                    var promises = children.map(c => this.rmrfAsync(`${path}/${c}`));
+                    Promise.all(promises).then(() => {
+                        // all children removed, now remove this
+                        this.removeAsync(path).then(resolve, reject);
+                    }, reject);
+                }
+            }, reject);
         });
     }
 
