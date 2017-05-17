@@ -166,7 +166,7 @@ describe('The AsyncClient', function () {
     });
 
     after(async function () {
-        //await client.removeAsync('/test');
+        await client.rmrfAsync('/test');
         await client.closeAsync();
     });
 });
