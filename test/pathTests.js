@@ -58,8 +58,23 @@ describe('The AsyncClient', function () {
         assert.isFalse(r2);
     });
 
-    it('should throw if remove fails', async function () {
+    it('should throw for invalid path', async function () {
         assert.throwsAsync(client.removeAsync('azz1240-a$5"/a/b/c/d/e'));
+    });
+
+    it('should throw if remove fails', async function () {
+        // arrange
+        let path1 = `/test/test-${parseInt(Math.random() * 10000)}`;
+        let path2 = `${path1}/a`;
+        await client.createAsync(path1);
+        await client.createAsync(path2);
+
+        // act/assert
+        await assert.throwsAsync(client.removeAsync(path1));
+
+        // cleanup
+        await client.removeAsync(path2);
+        await client.removeAsync(path1);
     });
 
     after(async function () {
