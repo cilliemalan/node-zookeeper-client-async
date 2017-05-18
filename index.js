@@ -336,7 +336,7 @@ class AsyncClient {
      */
     mkdirpAsync(path, data = null, acls = null, mode = null) {
         return new Promise((resolve, reject) => {
-            this._client.setACL(path, data, acls, mode, (e, path) => {
+            this._client.mkdirp(path, data, acls, mode, (e, path) => {
                 if (e) {
                     reject(e);
                 } else {
