@@ -386,3 +386,6 @@ function createAsyncClient(connectionString, options = null) {
 
 module.exports.createAsyncClient = createAsyncClient;
 module.exports.AsyncClient = AsyncClient;
+module.exports.AsyncTransaction = AsyncTransaction;
+
+
