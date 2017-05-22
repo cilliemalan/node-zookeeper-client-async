@@ -180,6 +180,25 @@ describe('The AsyncClient', function () {
         assert.isNotOk(retrieved);
     });
 
+    it('should be able to create deep folders with mkdirp', async function () {
+        // arrange
+        const root = `/test/test-${parseInt(Math.random() * 10000)}`;
+        const path = `${root}/a/b/c`;
+
+        // act
+        const retrieved = await client.mkdirpAsync(path);
+
+        // assert
+        assert.equal(retrieved, path);
+        assert.isOk(await client.existsAsync(`${root}`));
+        assert.isOk(await client.existsAsync(`${root}/a`));
+        assert.isOk(await client.existsAsync(`${root}/a/b`));
+        assert.isOk(await client.existsAsync(`${root}/a/b/c`));
+
+        // cleanup
+        await client.rmrfAsync(root);
+    });
+
     after(async function () {
         await client.rmrfAsync('/test');
         await client.closeAsync();
