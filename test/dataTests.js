@@ -50,6 +50,38 @@ describe('The AsyncClient', function () {
         assert.isNotOk(data);
     });
 
+    it('should be able to set the data for an existing node', async function () {
+        // arrange
+        const path = `/test/test-${parseInt(Math.random() * 10000)}`;
+        await client.createAsync(path);
+
+        // act
+        const stat = await client.setDataAsync(path, Buffer.from('hello'));
+
+        // assert
+        assert.isOk(stat);
+        const data = await client.getDataAsync(path);
+        assert.isOk(data);
+        assert.equal(data.data.toString(), 'hello');
+    });
+
+    it('should be able to set the data for an existing node more than once', async function () {
+        // arrange
+        const path = `/test/test-${parseInt(Math.random() * 10000)}`;
+        await client.createAsync(path);
+
+        // act
+        const stat1 = await client.setDataAsync(path, Buffer.from('hello1'));
+        const stat2 = await client.setDataAsync(path, Buffer.from('hello2'));
+
+        // assert
+        assert.isOk(stat1);
+        assert.isOk(stat2);
+        const data = await client.getDataAsync(path);
+        assert.isOk(data);
+        assert.equal(data.data.toString(), 'hello2');
+    });
+
     after(async function () {
         await client.rmrfAsync('/test');
         await client.closeAsync();
