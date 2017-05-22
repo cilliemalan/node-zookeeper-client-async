@@ -106,7 +106,7 @@ class AsyncClient {
 
         // this object has all the methods of the underlying client.
         for (let k in client) {
-            if (k == 'transaction') continue;
+            if (k in AsyncClient.prototype) continue;
 
             const v = client[k];
             if (typeof v == 'function') this[k] = v.bind(client);
