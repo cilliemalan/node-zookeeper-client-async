@@ -310,7 +310,7 @@ class AsyncClient {
      * @param {ACL[]} acls An array of ACL instances to set on the node.
      * @param {Number} version the version to set. -1 (default) to match any version.
      */
-    setACLAsync(path, acls, version) {
+    setACLAsync(path, acls, version = -1) {
         return new Promise((resolve, reject) => {
             this._client.setACL(path, acls, version, (e, stat) => {
                 if (e) {
