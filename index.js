@@ -15,6 +15,9 @@ try {
 
 module.exports = Object.assign({}, zookeeper);
 
+/**
+ * An asynchronous zookeeper transaction. Created by AsyncClient.transaction()
+ */
 class AsyncTransaction {
     constructor(transaction) {
         this._transaction = transaction;
@@ -91,7 +94,7 @@ class AsyncTransaction {
 }
 
 /**
- * An zookeeper client that has methods that return promises.
+ * A zookeeper client that has methods that return promises.
  */
 class AsyncClient {
 
