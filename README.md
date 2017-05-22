@@ -8,4 +8,4 @@ The symantics are slightly different in that operations on nonexistant nodes typ
 not reject (i.e. return an error), but rather resolve `null`.
 
 ## Documentation
-For more specific information see [the documentation](https://cilliemalan.github.io/node-zookeeper-client-async/node-zookeeper-client-async/1.0.0-beta/)
+For more specific information see [the documentation](https://cilliemalan.github.io/node-zookeeper-client-async)

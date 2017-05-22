@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha -R dot",
     "coverage": "nyc --reporter=html --reporter=text  mocha -R dot",
-    "docs": "jsdoc -P package.json -R README.md -d ./docs/ ."
+    "docs": "jsdoc -R README.md -d ./docs/ ."
   },
   "repository": {
     "type": "git",
