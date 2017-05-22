@@ -146,7 +146,7 @@ a number of methods that return promises.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line99">line 99</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line132">line 132</a>
     </li></ul></dd>
     
 
@@ -169,6 +169,42 @@ a number of methods that return promises.
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const zk = require('node-zookeeper-client-async');
+
+const client = zk.createAsyncClient("127.0.0.1:2181");
+
+// connect to the server
+await client.connectAsync();
+console.log('connected!');
+
+// create a node
+const rootPath = await client.mkdirpAsync('/test');
+console.log(`created ${rootPath}`)
+
+// add some ephemeral nodes
+await client.createAsync('/test/counter-', Buffer.from('first'), null, zk.CreateMode.EPHEMERAL_SEQUENTIAL);
+await client.createAsync('/test/counter-', Buffer.from('second'), null, zk.CreateMode.EPHEMERAL_SEQUENTIAL);
+
+// list the nodes
+const nodes = await client.getChildrenAsync('/test');
+
+// print stuff to console
+console.log(`${rootPath} has the children:`)
+    await Promise.all(nodes.map(async node => {
+    const data = await client.getDataAsync(`/test/${node}`);
+    console.log(`  ${node}: ${data.data}`);
+}));
+
+// delete everything
+await client.rmrfAsync(rootPath);
+
+// shut down
+await client.closeAsync();
+console.log('disconnected');</code></pre>
 
 
 
@@ -250,7 +286,7 @@ disconnected.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line144">line 144</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -357,7 +393,7 @@ randomly) until a connection is established or close method is invoked.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line126">line 126</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line159">line 159</a>
     </li></ul></dd>
     
 
@@ -605,7 +641,7 @@ else going wrong
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line166">line 166</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line199">line 199</a>
     </li></ul></dd>
     
 
@@ -761,7 +797,7 @@ resolves null if it does not exist, rejects if anything goes wrong.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line215">line 215</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line248">line 248</a>
     </li></ul></dd>
     
 
@@ -912,7 +948,7 @@ resolve null if the node does not exist and will reject if anything goes wrong.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line296">line 296</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line329">line 329</a>
     </li></ul></dd>
     
 
@@ -1063,7 +1099,7 @@ null if the node does not exist. Rejects if anything goes wrong.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line234">line 234</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line267">line 267</a>
     </li></ul></dd>
     
 
@@ -1214,7 +1250,7 @@ if the node does not exist. Rejects if anything goes wrong.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line254">line 254</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line287">line 287</a>
     </li></ul></dd>
     
 
@@ -1457,7 +1493,7 @@ is created and will reject if anything goes wrong.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line339">line 339</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
@@ -1633,7 +1669,7 @@ for any other result.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line192">line 192</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line225">line 225</a>
     </li></ul></dd>
     
 
@@ -1783,7 +1819,7 @@ or does not exist and reject if anything goes wrong.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line357">line 357</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line390">line 390</a>
     </li></ul></dd>
     
 
@@ -1981,7 +2017,7 @@ if anything goes wrong or the node does not exist.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line318">line 318</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line351">line 351</a>
     </li></ul></dd>
     
 
@@ -2161,7 +2197,7 @@ reject if unsuccessful or if the node does not exist.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line277">line 277</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line310">line 310</a>
     </li></ul></dd>
     
 
@@ -2262,7 +2298,7 @@ can be used to construct and commit a set of operations atomically.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line379">line 379</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line412">line 412</a>
     </li></ul></dd>
     
 
@@ -2328,7 +2364,7 @@ can be used to construct and commit a set of operations atomically.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon May 22 2017 14:56:25 GMT+0200 (South Africa Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon May 22 2017 15:24:55 GMT+0200 (South Africa Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
