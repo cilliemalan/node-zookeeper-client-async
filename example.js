@@ -1,19 +1,4 @@
-# node-zookeeper-client-async
-A promises wrapper over [https://github.com/alexguan/node-zookeeper-client](https://github.com/alexguan/node-zookeeper-client)
-
-For the most part it has each method included in the original node-zookeeper-client, with
-each method with a callback having an additional `Async` variant (e.g. `createAsync`).
-
-The symantics are slightly different in that operations on nonexistant nodes typically do
-not reject (i.e. return an error), but rather resolve `null`.
-
-## Documentation
-For more specific information see [the documentation](https://cilliemalan.github.io/node-zookeeper-client-async)
-
-
-## Example
-```javascript
-const zk = require('node-zookeeper-client-async');
+const zk = require('.');
 
 
 (async function main() {
@@ -48,19 +33,3 @@ const zk = require('node-zookeeper-client-async');
     await client.closeAsync();
     console.log('disconnected');
 })();
-```
-
-Console output:
-```
-~/node-zookeeper-client-async$ node example.js
-connected!
-created /test
-/test has the children:
-  counter-0000000000: first
-  counter-0000000001: second
-disconnected
-```
-
-
-
-
