@@ -111,6 +111,21 @@ describe('The AsyncClient', function () {
     it('should successfully check if a nested path does not exist', async function () {
 
         // arrange 
+        let path = `/test/a/b/d/e`;
+
+        // act
+        let exists = await client.existsAsync(path);
+
+        // assert
+        assert.isNotOk(exists);
+
+        // cleanup
+        await client.removeAsync(path);
+    });
+
+    it('should successfully check if a nested path does not exist', async function () {
+
+        // arrange 
         let path = `/test/a/b/c`;
 
         // act
