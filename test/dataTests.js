@@ -23,6 +23,9 @@ describe('The AsyncClient', function () {
         assert.isObject(data.stat);
         assert.instanceOf(data.data, Buffer);
         assert.equal(data.data.toString('utf8'), "hello");
+
+        // cleanup
+        await client.removeAsync(path);
     });
 
     it('should be able to retrieve null data if there is no data', async function () {
@@ -37,6 +40,9 @@ describe('The AsyncClient', function () {
         assert.isObject(data);
         assert.isObject(data.stat);
         assert.isNotOk(data.data);
+
+        // cleanup
+        await client.removeAsync(path);
     });
 
     it('should be able to retrieve null if there is no node', async function () {
@@ -63,6 +69,9 @@ describe('The AsyncClient', function () {
         const data = await client.getDataAsync(path);
         assert.isOk(data);
         assert.equal(data.data.toString(), 'hello');
+
+        // cleanup
+        await client.removeAsync(path);
     });
 
     it('should be able to set the data for an existing node more than once', async function () {
@@ -80,6 +89,9 @@ describe('The AsyncClient', function () {
         const data = await client.getDataAsync(path);
         assert.isOk(data);
         assert.equal(data.data.toString(), 'hello2');
+
+        // cleanup
+        await client.removeAsync(path);
     });
 
     after(async function () {
