@@ -189,8 +189,6 @@ class AsyncClient {
             this._client.remove(path, version, e => {
                 switch (e && e.code) {
                     case Exception.NO_NODE: resolve(false); break;
-                    case undefined:
-                    case 0:
                     case null:
                         resolve(true);
                         break;
@@ -213,8 +211,7 @@ class AsyncClient {
         return new Promise((resolve, reject) => {
             this._client.exists(path, null, (e, stat) => {
                 if (e) {
-                    if (e.code == Exception.NO_NODE) resolve(null);
-                    else reject(e);
+                    reject(e);
                 } else {
                     resolve(stat);
                 }
