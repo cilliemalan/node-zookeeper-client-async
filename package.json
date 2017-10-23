@@ -1,6 +1,6 @@
 {
   "name": "node-zookeeper-client-async",
-  "version": "1.0.0-beta",
+  "version": "1.0.0",
   "description": "A promises wrapper over https://github.com/alexguan/node-zookeeper-client",
   "main": "index.js",
   "scripts": {
