@@ -1,6 +1,5 @@
 const assert = require('chai').assert;
 
-
 Object.getPrototypeOf(assert).throwsAsync = function (fun, msg) {
     return new Promise((resolve, reject) => {
         var threw = true;
