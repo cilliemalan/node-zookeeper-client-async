@@ -1,16 +1,13 @@
 const assert = require('chai').assert;
 const zk = require('../');
-const ACL = zk.ACL;
-const ACLS = zk.ACLS;
-const Permission = zk.Permission;
-const Id = zk.Id;
+const { ACL, ACLS, Permission, Id } = zk;
 
 describe('The AsyncClient', function () {
 
     let client = zk.createAsyncClient('127.0.0.1:2181');
 
     before(async function () {
-        client.addAuthInfo('ip', new Buffer('127.0.0.1'));
+        client.addAuthInfo('ip', Buffer.from('127.0.0.1'));
         await client.connectAsync();
         await client.createAsync('/test');
     });
