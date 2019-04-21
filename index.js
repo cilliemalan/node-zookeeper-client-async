@@ -1,17 +1,5 @@
 const zookeeper = require('node-zookeeper-client');
-const State = zookeeper.State;
-const ACL = zookeeper.ACL;
-const CreateMode = zookeeper.CreateMode;
-const Exception = zookeeper.Exception;
-
-// use bluebird promises if available
-try {
-    var bluebird = require('bluebird');
-    if (bluebird) {
-        global.Promise = bluebird.Promise;
-    }
-} catch (_) { }
-
+const { State, ACL, CreateMode, Exception } = zookeeper;
 
 module.exports = Object.assign({}, zookeeper);
 
