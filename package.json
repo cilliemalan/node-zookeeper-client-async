@@ -26,18 +26,13 @@
   },
   "homepage": "https://github.com/cilliemalan/node-zookeeper-client-async#readme",
   "dependencies": {
-    "node-zookeeper-client": "^0.2.2"
+    "jsdoc": "^3.5.5",
+    "node-zookeeper-client": "^0.2.3"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^3.19.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.4.1",
-    "bluebird": "^3.5.0",
-    "nyc": "^10.3.2"
-  },
-  "optionalDependencies": {
-    "bluebird": "^3.5.0",
-    "jsdoc": "^3.4.3"
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0"
   }
 }
